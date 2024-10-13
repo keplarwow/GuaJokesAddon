@@ -1,0 +1,7 @@
+## Interface: 100002
+## Title: Gua Jokes Addon
+## Notes: A fun addon that says a random Gua joke in chat.
+## Author: Keplar
+## Version: 1.0
+
+GuaJokesAddon.lua
