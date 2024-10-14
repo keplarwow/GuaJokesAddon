@@ -1,4 +1,3 @@
-
 local jokes = {
     "Superman wears Chuck Norris pajamas. Chuck Norris wears %s pajamas.",
     "%s can divide by zero.",
@@ -549,3 +548,5 @@ local jokes = {
     "%s能通过眨眼停止龙卷风。",
     "%s能通过微笑让彩虹变得完整。"
 }
+-- Assign the jokes table to the global scope
+_G.jokes = jokes

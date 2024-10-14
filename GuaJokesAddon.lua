@@ -1,16 +1,19 @@
--- GuaJokesAddon.lua
 
--- Load the jokes from the separate file
-local jokes = loadfile("Interface/AddOns/YourAddonName/GuaJokesList.lua")()
+-- GuaJokesAddon.lua
 
 -- Variables for tracking "Gua" mentions
 local guaCount = 0
 local guaThreshold = math.random(50, 100) -- Pick a random number between 50 and 100
+-- local jokes = nil -- Declare the jokes variable
 
 -- Function to select a random joke
 local function GetRandomJoke(name)
-    local jokeIndex = math.random(1, #jokes)
-    return string.format(jokes[jokeIndex], name)
+    if jokes then -- Ensure jokes is loaded before using it
+        local jokeIndex = math.random(1, #jokes)
+        return string.format(jokes[jokeIndex], name)
+    else
+        return "Jokes not available."
+    end
 end
 
 -- Function to select a random raid member and use their name in the joke
@@ -66,10 +69,11 @@ local function ShowCommandHint()
     print("|cff00ff00GuaJokesAddon loaded! Type /guajoke to show or hide the joke buttons.|r")
 end
 
--- Event for player login
+-- Event for player login to ensure all files are loaded before accessing the jokes
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:SetScript("OnEvent", function(self, event)
+    jokes = _G.jokes -- Assign the jokes table after the PLAYER_LOGIN event
     ShowCommandHint()
 end)
 
