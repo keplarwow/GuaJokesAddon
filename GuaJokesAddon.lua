@@ -619,7 +619,7 @@ end)
 
 -- Create the Raid joke button
 local raidButton = CreateFrame("Button", "RaidJokeButton", UIParent, "UIPanelButtonTemplate")
-raidButton:SetSize(120, 40) -- width, height
+raidButton:SetSize(150, 40) -- width, height
 raidButton:SetText("Tell Raid Joke")
 raidButton:SetPoint("TOP", UIParent, "TOP", 100, 0) -- Adjust the position as needed
 
