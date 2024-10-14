@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 11500
 ## Title: Gua Jokes Addon
 ## Notes: A fun addon that says a random Gua joke in chat.
 ## Author: Keplar
