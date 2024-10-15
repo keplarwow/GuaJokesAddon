@@ -43,7 +43,7 @@ local function CheckForGuaInChat(event, msg, author)
         if guaCount >= guaThreshold then
             local joke = GetRandomJoke("Gua")
             SendChatMessage(joke, "SAY")
-            
+
             -- Reset the count and pick a new random threshold
             guaCount = 0
             guaThreshold = math.random(50, 100)
