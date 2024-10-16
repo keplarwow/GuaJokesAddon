@@ -4,7 +4,6 @@
 -- Variables for tracking "Gua" mentions
 local guaCount = 0
 local guaThreshold = math.random(50, 100) -- Pick a random number between 50 and 100
--- local jokes = nil -- Declare the jokes variable
 
 -- Function to select a random joke
 local function GetRandomJoke(name)
@@ -16,16 +15,22 @@ local function GetRandomJoke(name)
     end
 end
 
--- Function to select a random raid member and use their name in the joke
 local function GetRandomRaidJoke()
     local raidSize = GetNumGroupMembers()
 
     if raidSize > 0 then
         local randomIndex = math.random(1, raidSize)
-        local randomRaidMember = GetRaidRosterInfo(randomIndex)
+        -- Get all return values from GetRaidRosterInfo
+        local randomRaidMemberName = GetRaidRosterInfo(randomIndex)
 
-        if randomRaidMember then
-            return GetRandomJoke(randomRaidMember)
+        if randomRaidMemberName then
+            -- Split the name if there's a hyphen
+            local nameOnly = randomRaidMemberName
+            local dashPosition = string.find(randomRaidMemberName, "-")
+            if dashPosition then
+                nameOnly = string.sub(randomRaidMemberName, 1, dashPosition - 1)
+            end
+            return GetRandomJoke(nameOnly)
         else
             return "Couldn't find a raid member."
         end
@@ -46,7 +51,7 @@ local function CheckForGuaInChat(event, msg, author)
 
             -- Reset the count and pick a new random threshold
             guaCount = 0
-            guaThreshold = math.random(50, 100)
+            guaThreshold = math.random(25, 75)
             -- print("New Gua threshold: " .. guaThreshold)
         end
     end
@@ -66,7 +71,7 @@ end)
 
 -- Function to display the command hint
 local function ShowCommandHint()
-    print("|cff00ff00GuaJokesAddon loaded! Type /guajoke to show or hide the joke buttons.|r")
+  print("|cffffff00GuaJokesAddon loaded! Type |cff00ff00/guajokeaddon|cffffff00 to show or hide the joke buttons.|r")
 end
 
 -- Event for player login to ensure all files are loaded before accessing the jokes
