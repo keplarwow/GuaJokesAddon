@@ -1,4 +1,3 @@
-
 -- GuaJokesAddon.lua
 
 -- Variables for tracking "Gua" mentions
