@@ -1,0 +1,69 @@
+name: Auto Patch Release for Jokes
+
+on:
+  push:
+    paths:
+      - 'jokes.lua'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed for creating releases/tags
+    env:
+      DRY_RUN: true  # set to false to REALLY create releases
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up GitHub CLI
+        uses: cli/cli-action@v2
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          latest_tag=$(git tag --list --sort=-v:refname | head -n 1)
+          echo "Latest tag is $latest_tag"
+          echo "tag=$latest_tag" >> $GITHUB_ENV
+
+      - name: Bump patch version
+        id: bump_version
+        run: |
+          version=${tag#v}
+          major=$(echo $version | cut -d. -f1)
+          minor=$(echo $version | cut -d. -f2)
+          patch=$(echo $version | cut -d. -f3)
+
+          new_patch=$((patch + 1))
+          new_version="v${major}.${minor}.${new_patch}"
+
+          echo "New version is $new_version"
+          echo "new_version=$new_version" >> $GITHUB_ENV
+
+      - name: Pick a random release title
+        id: random_title
+        run: |
+          titles=(
+            "Domain Expansion: Joke Barrage"
+            "Domain Expansion: Infinite Chuck Works"
+            "Domain Expansion: Legendary Joke Manifestation"
+            "Domain Expansion: Eight Inner Jokes Formation"
+            "Domain Expansion: Forbidden Joke Techniques"
+            "Domain Expansion: Absolute Joke Territory"
+          )
+          RANDOM_INDEX=$(($RANDOM % ${#titles[@]}))
+          picked_title="${titles[$RANDOM_INDEX]}"
+
+          echo "Picked title: $picked_title"
+          echo "release_title=$picked_title" >> $GITHUB_ENV
+
+      - name: Create GitHub Release (Dry Run or Real)
+        run: |
+          echo "DRY_RUN=$DRY_RUN"
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "Dry run mode: Would have created release $new_version titled '$release_title'"
+          else
+            gh release create "$new_version" \
+              --title "$new_version" \
+              --notes "$release_title"
+          fi
