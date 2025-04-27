@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write  # allow creating releases
     env:
-      DRY_RUN: true  # <<< Change to 'false' when you want real releases
+      DRY_RUN: false  # <<< Change to 'false' when you want real releases
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
