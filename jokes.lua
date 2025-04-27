@@ -1,5 +1,12 @@
 local jokes = {
 -- General Chuck Norris-style jokes
+  "The earth used to be flat, until %s told it to roll over.",
+  "%s knows what is on the other side of a black hole.",
+  "%s gets up so early that it is still yesterday.",
+  "%s was skipping stones on a lake one day, then the dinosaurs went extinct.",
+  "When %s tells a joke about Jada Smith, Will Smith stands up and slaps Jada.",
+  "%s knows when Santa is sleeping, and knows when he is awake.",
+  "%s died 20 years ago, Death just hasn't had the courage to tell him.",
   "%s was able to find the page '404'.",
   "Alexander Graham Bell had two missed calls from %s when he invented the phone.",
   "%s once met Stephen Hawking. Stephen stood up so %s could sit down.",
@@ -112,7 +119,6 @@ local jokes = {
   "%s doesn't catch colds; colds catch %s.",
   "%s can solve a Rubik's Cube with one hand tied behind his back.",
   "%s doesn't age; time gets old waiting for %s.",
-  "%s once built a snowman out of rain.",
   "%s can whistle in all languages.",
   "%s once got pulled over for speeding, but let the cop go with a warning.",
   "%s can count to infinity backwards.",
