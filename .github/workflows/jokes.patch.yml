@@ -1,18 +1,18 @@
 name: Auto Patch Release for Jokes
 
 on:
-  workflow_dispatch: {}
   push:
     paths:
       - 'jokes.lua'
+  workflow_dispatch: {}  # allow manual trigger from GitHub UI
 
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # allow creating releases
+      contents: write  # needed for pushing tags and creating releases
     env:
-      DRY_RUN: false  # <<< Change to 'false' when you want real releases
+      DRY_RUN: false  # <<< Set to false to actually create releases
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,6 +55,15 @@ jobs:
           echo "Picked title: $picked_title"
           echo "release_title=$picked_title" >> $GITHUB_ENV
 
+      - name: Create and Push Git Tag
+        if: env.DRY_RUN == 'false'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag "$new_version"
+          git push origin "$new_version"
+
       - name: Create GitHub Release (Dry Run or Real)
         run: |
           echo "DRY_RUN=$DRY_RUN"
@@ -79,3 +88,4 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$payload"
           fi
+
