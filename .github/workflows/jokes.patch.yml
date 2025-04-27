@@ -1,91 +1,54 @@
-name: Auto Patch Release for Jokes
+name: Auto Bump Patch Version
 
 on:
+  workflow_dispatch: {} # manual trigger
   push:
     paths:
-      - 'jokes.lua'
-  workflow_dispatch: {}  # allow manual trigger from GitHub UI
+      - 'jokes.lua' # trigger when jokes.lua is changed
+    branches:
+      - main
 
 jobs:
-  release:
+  bump-patch:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # needed for pushing tags and creating releases
-    env:
-      DRY_RUN: false  # <<< Set to false to actually create releases
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # important to fetch all tags!
 
-      - name: Get latest tag
-        id: get_tag
-        run: |
-          latest_tag=$(git tag --list --sort=-v:refname | head -n 1)
-          echo "Latest tag: $latest_tag"
-          echo "tag=$latest_tag" >> $GITHUB_ENV
+    - name: Get latest tag
+      id: get_tag
+      run: |
+        latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+        echo "Latest tag: $latest_tag"
+        echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
-      - name: Bump patch version
-        id: bump_version
-        run: |
-          version=${tag#v}
-          major=$(echo $version | cut -d. -f1)
-          minor=$(echo $version | cut -d. -f2)
-          patch=$(echo $version | cut -d. -f3)
+    - name: Bump patch version
+      id: bump
+      run: |
+        version="${{ env.latest_tag }}"
+        version="${version#v}" # remove leading v
+        IFS='.' read -r major minor patch <<< "$version"
+        patch=$((patch + 1))
+        new_version="v$major.$minor.$patch"
+        echo "New version: $new_version"
+        echo "new_version=$new_version" >> $GITHUB_ENV
 
-          new_patch=$((patch + 1))
-          new_version="v${major}.${minor}.${new_patch}"
+    - name: Create new git tag
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag ${{ env.new_version }}
+        git push origin ${{ env.new_version }}
 
-          echo "New version: $new_version"
-          echo "new_version=$new_version" >> $GITHUB_ENV
-
-      - name: Pick random release title
-        id: pick_title
-        run: |
-          titles=(
-            "Domain Expansion: Joke Barrage"
-            "Domain Expansion: Infinite Chuck Works"
-            "Domain Expansion: Legendary Joke Manifestation"
-            "Domain Expansion: Eight Inner Jokes Formation"
-            "Domain Expansion: Forbidden Joke Techniques"
-            "Domain Expansion: Absolute Joke Territory"
-          )
-          RANDOM_INDEX=$(($RANDOM % ${#titles[@]}))
-          picked_title="${titles[$RANDOM_INDEX]}"
-
-          echo "Picked title: $picked_title"
-          echo "release_title=$picked_title" >> $GITHUB_ENV
-
-      - name: Create and Push Git Tag
-        if: env.DRY_RUN == 'false'
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git tag "$new_version"
-          git push origin "$new_version"
-
-      - name: Create GitHub Release (Dry Run or Real)
-        run: |
-          echo "DRY_RUN=$DRY_RUN"
-          if [ "$DRY_RUN" == "true" ]; then
-            echo "Dry run mode: Would have created release $new_version titled '$release_title'"
-          else
-            echo "Creating real release..."
-
-            api_url="https://api.github.com/repos/${{ github.repository }}/releases"
-            payload=$(
-              jq -n --arg tag "$new_version" --arg name "$new_version" --arg body "$release_title" '{
-                tag_name: $tag,
-                name: $name,
-                body: $body,
-                draft: false,
-                prerelease: false
-              }'
-            )
-
-            curl -X POST "$api_url" \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: application/json" \
-              -d "$payload"
-          fi
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.new_version }}
+        name: ${{ env.new_version }}
+        body: "Automatic patch bump to ${{ env.new_version }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
