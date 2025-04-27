@@ -1,5 +1,12 @@
 local jokes = {
--- General Chuck Norris-style jokes
+  "When God said, 'Let there be light!' %s said, 'Say Please.'",
+  "Since 1940, the year %s was born, roundhouse kick related deaths have increased 13,000 percent.",
+  "If you spell %s in Scrabble, you win. Forever.",
+  "Time waits for no man. Unless that man is %s.",
+  "%s can have both feet on the ground and kick butt at the same time.",
+  "Champions are the breakfast of %s.",
+  "%s can play the violin with a piano.",
+  "%s drinks napalm to fight his heartburn.",
   "The earth used to be flat, until %s told it to roll over.",
   "%s's parents go to his room when they had a bad dream.",
   "%s knows what is on the other side of a black hole.",
