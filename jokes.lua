@@ -1,4 +1,6 @@
 local jokes = {
+  "%s's cowboy boots are made out of real cowboys.",
+  "%s can cook minute rice in 30 seconds.",
   "When God said, 'Let there be light!' %s said, 'Say Please.'",
   "Since 1940, the year %s was born, roundhouse kick related deaths have increased 13,000 percent.",
   "If you spell %s in Scrabble, you win. Forever.",
