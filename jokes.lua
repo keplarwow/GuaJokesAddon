@@ -1,7 +1,10 @@
 local jokes = {
 -- General Chuck Norris-style jokes
   "The earth used to be flat, until %s told it to roll over.",
+  "%s's parents go to his room when they had a bad dream.",
   "%s knows what is on the other side of a black hole.",
+  "%s passed 6 kidney stones. Thanos tried to collect them all.",
+  "When Facebook was invented, Zuckerburg had a friend request from %s.",
   "%s gets up so early that it is still yesterday.",
   "%s was skipping stones on a lake one day, then the dinosaurs went extinct.",
   "When %s tells a joke about Jada Smith, Will Smith stands up and slaps Jada.",
