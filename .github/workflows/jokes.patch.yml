@@ -1,6 +1,7 @@
 name: Auto Patch Release for Jokes
 
 on:
+  workflow_dispatch: {}
   push:
     paths:
       - 'jokes.lua'
