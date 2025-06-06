@@ -66,7 +66,7 @@ local jokes = {
   "They once tried to name a bridge after %s, but changed their mind because no one crosses %s.",
   "When ghosts go camping, they tell %s stories",
   "%s once beat a dead man to life.",
-  "When %s moved out of his parent's house, he told his dad that he was the man of the hosue now",
+  "When %s moved out of his parent's house, he told his dad that he was the man of the house now.",
   "How many pushups can %s do? All of them.",
   "%s can see John Cena.",
   "%s once karate chopped a boulder in half. It is known as the Grand Canyon.",
