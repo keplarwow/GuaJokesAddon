@@ -57,7 +57,6 @@ local jokes = {
   "%s isn't the chosen one. He chooses the chosen one.",
   "%s built sand castles as a kid, we know them as the pyramids",
   "%s can read QR codes.",
-  "%s uses stunt doubles, but only for the crying parts",
   "%s doesn't flush the toilet, he just scares the crap out of it.",
   "%s once threw a grenade and killed 50 men. Then the grenade exploded.",
   "%s once arm wrestled Superman. The loser had to wear their underwear on the outside of their pants.",
